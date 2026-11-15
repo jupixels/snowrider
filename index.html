@@ -79,9 +79,6 @@
   #shopBtn{position:absolute;right:20px;bottom:20px}
   @media (max-width:640px){#scoreHud{left:18%;bottom:26%}}
   @media (max-width:480px){h1{font-size:42px}.card{padding:24px 20px}.pill{font-size:18px}#scoreHud .pill{font-size:24px}}
-  #fsBtn{position:fixed;left:12px;bottom:12px;z-index:50;width:44px;height:44px;border:none;border-radius:12px;background:rgba(255,255,255,.85);color:#1d3557;box-shadow:0 3px 0 rgba(29,53,87,.18);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;opacity:.75;transition:opacity .2s}
-  #fsBtn:hover{opacity:1}
-  #fsBtn svg{width:22px;height:22px}
 </style>
 </head>
 <body>
@@ -1366,35 +1363,6 @@ addEventListener('resize', ()=>{
 resetRun();
 refreshMenu();
 requestAnimationFrame(loop);
-})();
-</script>
-<button id="fsBtn" type="button" title="Full screen" aria-label="Full screen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path id="fsIcon" d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/></svg></button>
-<script>
-// Full screen: works in a normal tab, and in embeds that allow it.
-// If the page around the game blocks full screen (some embeds do),
-// open the game in its own tab instead.
-(() => {
-  const btn = document.getElementById('fsBtn'), icon = document.getElementById('fsIcon');
-  const fsEl = () => document.fullscreenElement || document.webkitFullscreenElement;
-  const enter = () => { const el = document.documentElement; return (el.requestFullscreen || el.webkitRequestFullscreen).call(el); };
-  const exit = () => (document.exitFullscreen || document.webkitExitFullscreen).call(document);
-  const openTab = () => { const w = window.open(location.href, '_blank'); if (!w) location.href = location.href; };
-  const canFs = () => (document.fullscreenEnabled || document.webkitFullscreenEnabled) && (document.documentElement.requestFullscreen || document.documentElement.webkitRequestFullscreen);
-  btn.addEventListener('pointerdown', e => e.stopPropagation());
-  btn.addEventListener('click', e => {
-    e.stopPropagation(); btn.blur();
-    if (fsEl()) { exit(); return; }
-    if (!canFs()) { openTab(); return; }
-    try { const p = enter(); if (p && p.catch) p.catch(openTab); } catch (err) { openTab(); }
-  });
-  const sync = () => {
-    const on = !!fsEl();
-    icon.setAttribute('d', on ? 'M9 4v5H4M20 9h-5V4M15 20v-5h5M4 15h5v5' : 'M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5');
-    btn.title = on ? 'Exit full screen' : 'Full screen';
-    btn.setAttribute('aria-label', btn.title);
-  };
-  document.addEventListener('fullscreenchange', sync);
-  document.addEventListener('webkitfullscreenchange', sync);
 })();
 </script>
 </body>
